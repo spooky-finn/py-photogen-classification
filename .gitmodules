@@ -1,0 +1,3 @@
+[submodule "gender-classification"]
+	path = gender-classification
+	url = https://github.com/arunponnusamy/gender-classification.git
