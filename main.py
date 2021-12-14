@@ -1,35 +1,35 @@
-
-# import necessary packages
 from keras.preprocessing.image import img_to_array
 from keras.models import load_model
 import numpy as np
-import argparse
+# import argparse
 import cv2
 import shutil
 
 import os, sys
-from src.check_license import checkLicense
-from cfg.cfg import *
+from py_hardware_binding import authenticate
 
 
 
 # handle command line arguments
-ap = argparse.ArgumentParser()
-ap.add_argument("-i", "--image", required=True,
-	help="path to input image")
-args = ap.parse_args()
+# ap = argparse.ArgumentParser()
+# ap.add_argument("-i", "--image", required=True,
+# 	help="path to input image")
+# args = ap.parse_args()
 
-model_path = 'ml_gender_classification/model.model'
+model_path = './gender_classification/gender_classification.model'
 
 def main(application_path, path_to_session):
-    path_to_photos  = '/Users/fin/Desktop/genderparse/for_ml_testing/'
+    
+    path_to_photos  = input('Please give me a path to folder with photos \n')
     valid_images = [".jpg",".gif",".png",".tga", ".jpeg"]
     
     if not os.path.exists( os.path.join(path_to_photos, 'mans/')):
         os.makedirs(os.path.join(path_to_photos, "mans/"))
     if not os.path.exists( os.path.join(path_to_photos, 'womans/')):
         os.makedirs(os.path.join(path_to_photos, "womans/"))
-        
+      
+    photo_counter = 0
+      
     for f in os.listdir(path_to_photos):
         ext = os.path.splitext(f)[1]
         if ext.lower() not in valid_images:
@@ -60,11 +60,15 @@ def main(application_path, path_to_session):
         if confidence[1] > .9:
             shutil.move( os.path.join(path_to_photos, f), os.path.join(path_to_photos, 'womans/', f)) 
 
+        photo_counter+=1
+        
+    print('Finded ', photo_counter, ' photos in current directory')
+        
 
 
 
 
-
+@authenticate
 def run(WORKDIR):    
     """ Get absolute path to resource, works for dev and for PyInstaller """
     base_path = getattr(sys, '_MEIPASS', os.path.abspath(WORKDIR))
@@ -81,8 +85,8 @@ def run(WORKDIR):
         application_path = WORKDIR
     
     
-    # if checkLicense(path_to_license):
     main(
         application_path, 
         path_to_session
     )
+    

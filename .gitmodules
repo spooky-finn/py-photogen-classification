@@ -1,3 +1,6 @@
 [submodule "gender-classification"]
-	path = gender-classification
+	path = gender_classification
 	url = https://github.com/arunponnusamy/gender-classification.git
+[submodule "py_hardware_binding"]
+	path = py_hardware_binding
+	url = https://github.com/spooky-finn/py_hardware_binding.git
